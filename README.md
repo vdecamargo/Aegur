@@ -51,7 +51,7 @@ O modo mais seguro:
 
 ### Instalação
 ```bash
-git clone https://github.com/seuusuario/aegur.git
+git clone https://github.com/vdecamargo/Aegur
 cd aegur
 
 Uso Básico 
