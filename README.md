@@ -68,6 +68,10 @@ python Aegur.py --ascii-only --length 20 --verbose
 # Modo paranoico
 python Aegur.py --paranoid-mode --length 16 --show-password --verbose
 
+note que dependendo do sistema operacional usado, python deve ser 
+trocado para python3, onde python3 Aegur.py ou python Aegur.py --bank-mode --length 12
+deverão ser usados
+
 Opções Disponíveis
 --ascii-only: Apenas caracteres ASCII seguros
 --bank-mode: Modo ultra-conservador (alfanumérico)
