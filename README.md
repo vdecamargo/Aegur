@@ -57,16 +57,16 @@ cd aegur
 Uso Básico 
 
 # Modo padrão (strong-mode)
-python aegur.py
+python Aegur.py
 
 # Modo bancário
-python aegur.py --bank-mode --length 12
+python Aegur.py --bank-mode --length 12
 
 # Modo ASCII apenas
-python aegur.py --ascii-only --length 20 --verbose
+python Aegur.py --ascii-only --length 20 --verbose
 
 # Modo paranoico
-python aegur.py --paranoid-mode --length 16 --show-password --verbose
+python Aegur.py --paranoid-mode --length 16 --show-password --verbose
 
 Opções Disponíveis
 --ascii-only: Apenas caracteres ASCII seguros
