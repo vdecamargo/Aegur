@@ -69,7 +69,7 @@ python Aegur.py --ascii-only --length 20 --verbose
 python Aegur.py --paranoid-mode --length 16 --show-password --verbose
 
 note que dependendo do sistema operacional usado, python deve ser 
-trocado para python3, onde python3 Aegur.py ou python Aegur.py --bank-mode --length 12
+trocado para python3, onde python3 Aegur.py ou python3 Aegur.py --bank-mode --length 12
 deverão ser usados
 
 Opções Disponíveis
