@@ -1,107 +1,71 @@
 # Aegur
-# 🛡️ Aegur — Gerador de Senhas Offline em Python (Seu Escudo Digital)
+## 🛡️ Aegur — Offline Python Password Generator
 
-**Aegur** é um gerador de senhas offline, open source e altamente seguro, escrito em Python, com interface CLI minimalista e estrutura clara, projetado como um escudo digital contra ataques de força bruta, phishing visual e sistemas inseguros.
+**Aegur** is an offline, open-source, and highly secure password generator written in Python. It is designed as a digital shield against brute-force attacks and visual phishing.
 
-## 🎯 Objetivo do Projeto
+---
 
-Criar um gerador de senhas offline que seja:
+### 🎯 Project Goals
 
-- **Máxima entropia e aleatoriedade criptográfica**
-- **Proteção contra spoofing visual** (exclusão rigorosa de caracteres ambíguos)
-- **Totalmente offline** — nenhuma conexão de rede em momento algum
-- **Sem uso de dicionários, palavras ou padrões** — apenas caracteres aleatórios
-- **Código auditável, organizado e legível**
-- **Instalação e uso exclusivamente via git clone**
+* **Cryptographic Randomness:** Maximum entropy using the `secrets` module.
+* **Visual Anti-Spoofing:** Strict exclusion of ambiguous characters.
+* **Total Offline Isolation:** Zero network connection at any time.
+* **Auditability:** Clean code with zero external dependencies.
 
-## ✅ Características de Segurança
+---
 
-### 🔍 Filtro Anti-Spoofing Visual
-Exclusão rigorosa de caracteres visualmente ambíguos, incluindo:
-- Dígitos/letras confusos: 0/O/o, 1/l/I/i
-- Caracteres latinos acentuados vs. não acentuados
-- Letras cirílicas, gregas ou arcaicas que imitam latinas (ex: а cirílico vs a latino)
+### 🛡️ Generation Modes
 
-### 🛡️ Modos de Geração
+| Flag | Description | Character Set |
+| :--- | :--- | :--- |
+| `--bank-mode` | Ultra-conservative | Secure alphanumeric only |
+| `--ascii-only` | Standard Web | Safe printable ASCII |
+| `--strong-mode` | High Security | ASCII + distinct Unicode symbols |
+| `--paranoid-mode`| Maximum Safety | Memory wiping & SHA3 hash audit |
 
-#### 🟢 `--ascii-only`
-Apenas caracteres ASCII imprimíveis seguros (sem ambiguidades).
-- Pool: `"23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz!@#$%^&*()_+-=[]{}|;:,.<>?"`
+---
 
-#### 🔵 `--strong-mode` (padrão)
-Combinação de ASCII seguro + símbolos Unicode visualmente distintos e seguros.
-- Exemplos: ΔΘΛΞΠΣΦΨΩ≠≤≥±∫∏√€₹₽₺←→↑↓↔↵¶§
+### 🚀 Installation and Usage (Windows)
 
-#### 🟡 `--bank-mode`
-Modo ultra-conservador: apenas alfanumérico ASCII seguro, sem símbolos, sem Unicode.
-- Pool: `"23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz"`
-
-#### 🟥 `--paranoid-mode`
-O modo mais seguro:
-- Sobrescrita segura de strings sensíveis após uso
-- Geração de hash SHA3 da senha para auditoria offline
-- Nenhuma exibição automática da senha (exige flag explícita)
-
-## 📦 Requisitos
-
-- Python 3.8+
-- Nenhuma dependência externa (apenas biblioteca padrão)
-
-## 🚀 Instalação e Uso
-
-### Instalação
-```bash
-git clone https://github.com/vdecamargo/Aegur
+**1. Clone the Repository**
+```powershell
+git clone [https://github.com/vdecamargo/Aegur](https://github.com/vdecamargo/Aegur)
 cd aegur
-
-Uso Básico 
-
-# Modo padrão (strong-mode)
+# Default mode (strong-mode, 16 chars)
 python Aegur.py
 
-# Modo bancário
+# Bank mode with 12 characters
 python Aegur.py --bank-mode --length 12
 
-# Modo ASCII apenas
-python Aegur.py --ascii-only --length 20 --verbose
+# Paranoid mode with entropy statistics
+python Aegur.py --paranoid-mode --length 24 --show-password --verbose
+python Aegur.py --bank-mode --length 12 | Set-Clipboard
+### 🔍 Visual Anti-Spoofing Filter
 
-# Modo paranoico
-python Aegur.py --paranoid-mode --length 16 --show-password --verbose
+Aegur strictly removes visually confusing characters:
 
-note que dependendo do sistema operacional usado, python deve ser 
-trocado para python3, onde python3 Aegur.py ou python3 Aegur.py --bank-mode --length 12
-deverão ser usados
+* **Confusing Digits/Letters:** `0/O/o`, `1/l/I/i`.
+* **Homoglyphs:** Cyrillic or Greek letters that mimic Latin ones (e.g., `а` vs `a`).
+* **Legacy Issues:** Removes symbols that break in older databases.
 
-Opções Disponíveis
---ascii-only: Apenas caracteres ASCII seguros
---bank-mode: Modo ultra-conservador (alfanumérico)
---strong-mode: Modo forte (padrão)
---paranoid-mode: Modo mais seguro
---length N: Comprimento da senha (padrão: 16)
---verbose: Mostrar estatísticas de entropia
---show-password: Mostrar senha no modo paranoico
-📊 Estatísticas de Entropia
-Com a flag --verbose, Aegur mostra:
+---
 
-Comprimento da senha
-Tamanho do pool de caracteres
-Entropia estimada em bits
-Tempo estimado de resistência a força bruta
-📋 Cópia para Clipboard
-Aegur não implementa cópia para clipboard internamente para manter o princípio de isolamento offline. Usuários que confiam em seu ambiente podem redirecionar a saída manualmente:
+### 📊 Entropy Statistics ($H$)
 
-python aegur.py --bank-mode --length 12 | tr -d '\n' | xclip -selection clipboard
+When using the `--verbose` flag, Aegur calculates the mathematical strength:
 
-Princípios de Segurança
+$$H = L \cdot \log_2(N)$$
 
-Aleatoriedade Criptográfica: Uso exclusivo de secrets.SystemRandom()
-Nenhum Padrão: Senhas compostas exclusivamente por caracteres aleatórios
-Entropia Máxima: Cada caractere contribui para a segurança total
-Pool Balanceado: Caracteres distribuídos para evitar viés
-Isolamento Offline: Nenhuma conexão de rede em momento algum
+Where $L$ is the length and $N$ is the size of the character pool.
 
-Aegur não é só uma ferramenta — é um princípio.
-Enquanto existirem senhas fracas, spoofing visual e sistemas legados, Aegur será o escudo que você carrega no terminal.
+---
 
-Feito para ser compreendido.
-Feito para proteger sem confiança cega.
+### 📝 Security Principles
+
+* **Cryptographic Randomness:** Exclusive use of `secrets.SystemRandom()`.
+* **Zero Trace:** Sensitive strings are overwritten in memory after use.
+* **Audit-Ready:** No hidden code. No external libraries.
+
+---
+
+**Aegur is not just a tool — it's a principle.**
